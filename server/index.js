@@ -18,4 +18,5 @@ app.get('/', (request, response) => {
 mongoose.connect(config.DB.URI, (err, db) => {
   if (err) throw err
   console.info('Connected to %s', config.DB.URI)
+  process.send('server:started')
 })
