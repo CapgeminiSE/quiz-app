@@ -1,3 +1,6 @@
 {
-    "PORT": 8080
+    "PORT": 8080,
+    "DB": {
+        "URI": "mongodb://localhost:27017/quiz"
+    }
 }
