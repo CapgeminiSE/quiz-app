@@ -1,5 +1,23 @@
 var gulp = require('gulp')
+var minify = require('gulp-minify')
+var concat = require('gulp-concat')
 var child_process = require('child_process')
+
+gulp.task('post-install', ['bundle-lib'], function (callback) { callback() })
+gulp.task('bundle-lib', function () {
+  return gulp.src(
+    ['./es6-shim/es6-shim.min.js',
+    './systemjs/dist/system-polyfills.js',
+    './angular2/bundles/angular2-polyfills.js',
+    './systemjs/dist/system.src.js',
+    './rxjs/bundles/Rx.js',
+    './angular/bundles/angular2.dev.js'
+    ], {cwd: './node_modules'}
+  )
+  .pipe(concat('lib.js'))
+  .pipe(minify())
+  .pipe(gulp.dest('./public/js'))
+})
 
 gulp.task('dev', ['server'], function () {
   gulp.watch(
