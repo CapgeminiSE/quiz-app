@@ -2,8 +2,13 @@ var child_process = require('child_process')
 var gulp = require('gulp')
 var ts = require('gulp-typescript')
 var tsProject = ts.createProject('tsconfig.json')
+var browserSync = require('browser-sync').create()
+var config = require('./config.json')
+
+var BROWSER_SYNC_RELOAD_DELAY = 500
 
 gulp.task('post-install', ['bundle-lib', 'tsc'], function (callback) { callback() })
+
 gulp.task('bundle-lib', function () {
   return gulp.src(
     [
@@ -24,7 +29,7 @@ gulp.task('tsc', function () {
   return tsResult.js.pipe(gulp.dest('public/js/app'))
 })
 
-gulp.task('dev', ['server'], function () {
+gulp.task('dev', ['browsersync'], function () {
   gulp.watch(
     [
       'index.js',
@@ -32,7 +37,30 @@ gulp.task('dev', ['server'], function () {
       'config.json',
       'server/**/*'
     ],
-    ['server'], {cwd: __dirname})
+  ['server'], {cwd: __dirname})
+
+  var reloading = false
+  gulp.watch(['public/js/**/*.js', 'public/**/*.html'], function () {
+    if (reloading) return
+    reloading = true
+    setTimeout(function () {
+      browserSync.reload()
+      reloading = false
+    }, BROWSER_SYNC_RELOAD_DELAY)
+  })
+
+  gulp.watch('public/**/*.css', browserSync.stream)
+})
+
+gulp.task('browsersync', ['server'], function (cb) {
+  // for more browser-sync config options: http://www.browsersync.io/docs/options/
+  browserSync.init({
+    proxy: 'http://localhost:' + config.PORT,
+    port: 3000,
+    notify: false,
+    logFileChanges: true
+  })
+  cb()
 })
 
 // Live restart on file change

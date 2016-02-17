@@ -2,7 +2,7 @@ import {Component} from 'angular2/core';
 @Component({
     selector: 'quiz-app',
     template: `
-    <h1>hi</h1>
+    <h1>Capgemini 2026</h1>
     `
 })
 
