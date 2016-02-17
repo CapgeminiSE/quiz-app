@@ -4,8 +4,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import jwt from 'jsonwebtoken'
-import QuizSchema from './models/quiz'
-console.log(QuizSchema);
+
+const QuizSchema = mongoose.model('QuizSchema')
 
 const config = require('../config.json')
 const app = express()
