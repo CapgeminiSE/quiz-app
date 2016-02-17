@@ -1,9 +1,9 @@
-var gulp = require('gulp')
-var minify = require('gulp-minify')
-var concat = require('gulp-concat')
 var child_process = require('child_process')
+var gulp = require('gulp')
+var ts = require('gulp-typescript')
+var tsProject = ts.createProject('tsconfig.json')
 
-gulp.task('post-install', ['bundle-lib'], function (callback) { callback() })
+gulp.task('post-install', ['bundle-lib', 'tsc'], function (callback) { callback() })
 gulp.task('bundle-lib', function () {
   return gulp.src(
     [
@@ -15,6 +15,13 @@ gulp.task('bundle-lib', function () {
       'node_modules/angular2/bundles/angular2.dev.js'
     ])
     .pipe(gulp.dest('public/js/lib'))
+})
+
+gulp.task('tsc', function () {
+  var tsResult = tsProject.src()
+  .pipe(ts(tsProject))
+
+  return tsResult.js.pipe(gulp.dest('public/js/app'))
 })
 
 gulp.task('dev', ['server'], function () {
