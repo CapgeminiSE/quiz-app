@@ -4,6 +4,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import jwt from 'jsonwebtoken'
+import QuizSchema from './models/quiz'
+console.log(QuizSchema);
 
 const config = require('../config.json')
 const app = express()
@@ -26,6 +28,13 @@ app.listen(config.PORT).on('listening', () => {
 
 app.get('/', (request, response) => {
   response.sendFile('./public/index.html')
+})
+
+app.post('/createquiz', auth, (request, response) => {
+  new QuizSchema(request.body).save((err, dock) => {
+    if (err) return response.json(err)
+    response.json(dock)
+  })
 })
 
 app.post('/login', (req, res) => {
