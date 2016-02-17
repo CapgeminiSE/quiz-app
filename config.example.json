@@ -1,5 +1,7 @@
 {
     "PORT": 8080,
+    "password": "Capgemini2016",
+    "jwtSecret": "keyboard cat",
     "DB": {
         "URI": "mongodb://localhost:27017/quiz"
     }
