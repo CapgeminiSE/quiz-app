@@ -6,17 +6,15 @@ var child_process = require('child_process')
 gulp.task('post-install', ['bundle-lib'], function (callback) { callback() })
 gulp.task('bundle-lib', function () {
   return gulp.src(
-    ['./es6-shim/es6-shim.min.js',
-    './systemjs/dist/system-polyfills.js',
-    './angular2/bundles/angular2-polyfills.js',
-    './systemjs/dist/system.src.js',
-    './rxjs/bundles/Rx.js',
-    './angular/bundles/angular2.dev.js'
-    ], {cwd: './node_modules'}
-  )
-  .pipe(concat('lib.js'))
-  .pipe(minify())
-  .pipe(gulp.dest('./public/js'))
+    [
+      'node_modules/es6-shim/es6-shim.min.js',
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/angular2/bundles/angular2-polyfills.js',
+      'node_modules/systemjs/dist/system.src.js',
+      'node_modules/rxjs/bundles/Rx.js',
+      'node_modules/angular2/bundles/angular2.dev.js'
+    ])
+    .pipe(gulp.dest('public/js/lib'))
 })
 
 gulp.task('dev', ['server'], function () {

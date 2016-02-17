@@ -9,6 +9,7 @@ const config = require('../config.json')
 const app = express()
 
 app.use(bodyParser.json())
+app.use(express.static('./node_modules')) // TODO: FIX angular2
 app.use(express.static('./public'))
 
 let auth = (req, res, next) => {
