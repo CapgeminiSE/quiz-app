@@ -2,9 +2,12 @@
 
 import express from 'express'
 import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+
 const config = require('../config.json')
 const app = express()
 
+app.use(bodyParser.json())
 app.use(express.static('./public'))
 
 app.listen(config.PORT).on('listening', () => {
@@ -13,6 +16,11 @@ app.listen(config.PORT).on('listening', () => {
 
 app.get('/', (request, response) => {
   response.sendFile('./public/index.html')
+})
+
+app.post('/login', (req, res) => {
+  if (req.body.password === config.password) res.json({accepted: true})
+  else res.json({accepted: false})
 })
 
 mongoose.connect(config.DB.URI, (err, db) => {
